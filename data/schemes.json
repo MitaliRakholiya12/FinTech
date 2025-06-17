@@ -1,0 +1,157 @@
+{
+    "schemes": [
+        {
+            "id": 1,
+            "title": "Rural Education Scholarship",
+            "category": "rural-students",
+            "state": "maharashtra",
+            "description": "Financial assistance for rural students pursuing higher education",
+            "eligibility": "Students from rural areas with family income below ₹2.5 lakhs per annum",
+            "benefits": "Up to ₹50,000 per year for tuition fees",
+            "deadline": "2024-08-31",
+            "applicationUrl": "#",
+            "documents": [
+                "Income Certificate",
+                "Domicile Certificate",
+                "Academic Records",
+                "Bank Account Details"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Women Entrepreneur Fund",
+            "category": "businesswomen",
+            "state": "gujarat",
+            "description": "Support for women starting their own businesses",
+            "eligibility": "Women entrepreneurs aged 21-45 years",
+            "benefits": "Low-interest loans up to ₹10 lakhs",
+            "deadline": "2024-07-15",
+            "applicationUrl": "#",
+            "documents": [
+                "Business Plan",
+                "Identity Proof",
+                "Address Proof",
+                "Bank Statements"
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Sustainable Farming Initiative",
+            "category": "farmers",
+            "state": "karnataka",
+            "description": "Support for adopting sustainable farming practices",
+            "eligibility": "Small and marginal farmers",
+            "benefits": "Equipment subsidies and training",
+            "deadline": "2024-09-30",
+            "applicationUrl": "#",
+            "documents": [
+                "Land Records",
+                "Farmer ID",
+                "Bank Account Details",
+                "Previous Crop Records"
+            ]
+        },
+        {
+            "id": 4,
+            "title": "Digital Education Grant",
+            "category": "rural-students",
+            "state": "tamil-nadu",
+            "description": "Support for digital learning equipment and resources",
+            "eligibility": "Rural students in grades 8-12",
+            "benefits": "Up to ₹25,000 for digital devices and internet connectivity",
+            "deadline": "2024-06-30",
+            "applicationUrl": "#",
+            "documents": [
+                "School Enrollment Proof",
+                "Income Certificate",
+                "Residence Proof",
+                "Bank Account Details"
+            ]
+        },
+        {
+            "id": 5,
+            "title": "Women in Tech Program",
+            "category": "businesswomen",
+            "state": "karnataka",
+            "description": "Support for women-led technology startups",
+            "eligibility": "Women entrepreneurs in technology sector",
+            "benefits": "Up to ₹20 lakhs funding and mentorship",
+            "deadline": "2024-10-15",
+            "applicationUrl": "#",
+            "documents": [
+                "Business Registration",
+                "Project Proposal",
+                "Team Details",
+                "Financial Projections"
+            ]
+        },
+        {
+            "id": 6,
+            "title": "Organic Farming Support",
+            "category": "farmers",
+            "state": "punjab",
+            "description": "Assistance for transition to organic farming",
+            "eligibility": "Farmers willing to adopt organic practices",
+            "benefits": "Training, certification support, and market linkage",
+            "deadline": "2024-11-30",
+            "applicationUrl": "#",
+            "documents": [
+                "Land Ownership Documents",
+                "Current Farming Practices Report",
+                "Bank Account Details",
+                "Local Authority Recommendation"
+            ]
+        },
+        {
+            "id": 7,
+            "title": "Rural Innovation Fund",
+            "category": "rural-students",
+            "state": "gujarat",
+            "description": "Support for innovative projects by rural students",
+            "eligibility": "Students from rural areas with innovative project ideas",
+            "benefits": "Up to ₹1 lakh project funding",
+            "deadline": "2024-12-15",
+            "applicationUrl": "#",
+            "documents": [
+                "Project Proposal",
+                "School Recommendation",
+                "Prototype Details",
+                "Budget Plan"
+            ]
+        },
+        {
+            "id": 8,
+            "title": "Women Artisan Support",
+            "category": "businesswomen",
+            "state": "rajasthan",
+            "description": "Support for women in traditional crafts",
+            "eligibility": "Women artisans and craftspersons",
+            "benefits": "Training, tools, and market access support",
+            "deadline": "2024-08-30",
+            "applicationUrl": "#",
+            "documents": [
+                "Artisan ID",
+                "Craft Samples",
+                "Training Requirements",
+                "Bank Account Details"
+            ]
+        },
+        {
+            "id": 9,
+            "title": "Smart Agriculture Grant",
+            "category": "farmers",
+            "state": "maharashtra",
+            "description": "Support for implementing smart farming technologies",
+            "eligibility": "Farmers willing to adopt modern farming techniques",
+            "benefits": "Up to ₹5 lakhs for technology implementation",
+            "deadline": "2024-07-31",
+            "applicationUrl": "#",
+            "documents": [
+                "Land Records",
+                "Technology Adoption Plan",
+                "Bank Statements",
+                "Previous Yield Records"
+            ]
+        }
+    ]
+} 

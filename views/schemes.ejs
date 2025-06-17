@@ -1,0 +1,262 @@
+<%- include('partials/header') %>
+
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Government Schemes</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-400">Discover financial support programs designed for rural students, businesswomen, and farmers.</p>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="relative">
+                    <input type="text" id="search" placeholder="Search schemes..." class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
+                </div>
+                <div>
+                    <select id="category" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
+                        <option value="">All Categories</option>
+                        <option value="rural-students">Rural Students</option>
+                        <option value="businesswomen">Businesswomen</option>
+                        <option value="farmers">Farmers</option>
+                    </select>
+                </div>
+                <div>
+                    <select id="state" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
+                        <option value="">All States</option>
+                        <option value="maharashtra">Maharashtra</option>
+                        <option value="gujarat">Gujarat</option>
+                        <option value="karnataka">Karnataka</option>
+                        <option value="goa">Goa</option>
+                        <option value="kerala">Kerala</option>
+                        <option value="jharkhand">Jharkhand</option>
+                        <option value="meghalaya">Meghalaya</option>
+                        
+                        <!-- Add more states as needed -->
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schemes Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="schemes-grid">
+            <!-- Scheme cards will be dynamically populated here -->
+        </div>
+
+        <!-- Scheme Details Modal -->
+        <div id="scheme-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full mx-4">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 id="modal-title" class="text-2xl font-bold text-gray-900 dark:text-white"></h2>
+                        <button onclick="closeModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="modal-content"></div>
+                    <div class="mt-6 flex justify-end">
+                        <a id="apply-link" href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700">
+                            Apply Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sample schemes data (replace with actual API call)
+    const schemes = [
+        {
+            id: 1,
+            title: "Rural Education Scholarship",
+            category: "rural-students",
+            state: "maharashtra",
+            description: "Financial assistance for rural students pursuing higher education",
+            eligibility: "Students from rural areas with family income below ₹2.5 lakhs per annum",
+            benefits: "Up to ₹50,000 per year for tuition fees",
+            deadline: "2024-08-31",
+            applicationUrl: "#"
+        },
+        {
+            id: 2,
+            title: "Women Entrepreneur Fund",
+            category: "businesswomen",
+            state: "gujarat",
+            description: "Support for women starting their own businesses",
+            eligibility: "Women entrepreneurs aged 21-45 years",
+            benefits: "Low-interest loans up to ₹10 lakhs",
+            deadline: "2024-07-15",
+            applicationUrl: "#"
+        },
+        {
+            id: 3,
+            title: "Sustainable Farming Initiative",
+            category: "farmers",
+            state: "karnataka",
+            description: "Support for adopting sustainable farming practices",
+            eligibility: "Small and marginal farmers",
+            benefits: "Equipment subsidies and training",
+            deadline: "2024-09-30",
+            applicationUrl: "#",
+        },
+        {
+            id: 4,
+            title: "Sustainable Farming Initiative",
+            category: "farmers",
+            state: "karnataka",
+            description: "Support for adopting sustainable farming practices",
+            eligibility: "Small and marginal farmers",
+            benefits: "Equipment subsidies and training",
+            deadline: "2024-09-30",
+            applicationUrl: "#"
+        },
+        {
+            id: 5,
+            title: "Sustainable Farming Initiative",
+            category: "farmers",
+            state: "gujarat",
+            description: "Support for adopting sustainable farming practices",
+            eligibility: "Small and marginal farmers",
+            benefits: "Equipment subsidies and training",
+            deadline: "2024-09-30",
+            applicationUrl: "#"
+        },
+        {
+            id: 6,
+            title: "Sustainable Farming Initiative",
+            category: "farmers",
+            state: "karnataka",
+            description: "Support for adopting sustainable farming practices",
+            eligibility: "Small and marginal farmers",
+            benefits: "Equipment subsidies and training",
+            deadline: "2024-09-30",
+            applicationUrl: "#"
+        },
+        {
+            id: 7,
+            title: "Sustainable Farming Initiative",
+            category: "farmers",
+            state: "karnataka",
+            description: "Support for adopting sustainable farming practices",
+            eligibility: "Small and marginal farmers",
+            benefits: "Equipment subsidies and training",
+            deadline: "2024-09-30",
+            applicationUrl: "#"
+        }
+    ];
+
+    // Function to render scheme cards
+    function renderSchemes(filteredSchemes = schemes) {
+        const grid = document.getElementById('schemes-grid');
+        grid.innerHTML = filteredSchemes.map(scheme => `
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">${scheme.title}</h3>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${getCategoryColor(scheme.category)}">
+                            ${formatCategory(scheme.category)}
+                        </span>
+                    </div>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">${scheme.description}</p>
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            <span class="font-semibold">Deadline:</span> ${formatDate(scheme.deadline)}
+                        </p>
+                    </div>
+                    <button onclick="showSchemeDetails(${scheme.id})" class="mt-4 w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 bg-primary-50 hover:bg-primary-100 dark:bg-gray-700 dark:text-primary-400 dark:hover:bg-gray-600">
+                        View Details
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Helper functions
+    function getCategoryColor(category) {
+        const colors = {
+            'rural-students': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+            'businesswomen': 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300',
+            'farmers': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+        };
+        return colors[category] || 'bg-gray-100 text-gray-800';
+    }
+
+    function formatCategory(category) {
+        return category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    }
+
+    function formatDate(dateString) {
+        return new Date(dateString).toLocaleDateString('en-IN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+
+    // Show scheme details in modal
+    function showSchemeDetails(schemeId) {
+        const scheme = schemes.find(s => s.id === schemeId);
+        if (!scheme) return;
+
+        document.getElementById('modal-title').textContent = scheme.title;
+        document.getElementById('modal-content').innerHTML = `
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400">Description</h3>
+                    <p class="mt-1 text-gray-900 dark:text-white">${scheme.description}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400">Eligibility</h3>
+                    <p class="mt-1 text-gray-900 dark:text-white">${scheme.eligibility}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400">Benefits</h3>
+                    <p class="mt-1 text-gray-900 dark:text-white">${scheme.benefits}</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400">Deadline</h3>
+                    <p class="mt-1 text-gray-900 dark:text-white">${formatDate(scheme.deadline)}</p>
+                </div>
+            </div>
+        `;
+        document.getElementById('apply-link').href = scheme.applicationUrl;
+        document.getElementById('scheme-modal').classList.remove('hidden');
+    }
+
+    // Close modal
+    function closeModal() {
+        document.getElementById('scheme-modal').classList.add('hidden');
+    }
+
+    // Filter schemes
+    function filterSchemes() {
+        const searchTerm = document.getElementById('search').value.toLowerCase();
+        const category = document.getElementById('category').value;
+        const state = document.getElementById('state').value;
+
+        const filteredSchemes = schemes.filter(scheme => {
+            const matchesSearch = scheme.title.toLowerCase().includes(searchTerm) ||
+                                scheme.description.toLowerCase().includes(searchTerm);
+            const matchesCategory = !category || scheme.category === category;
+            const matchesState = !state || scheme.state === state;
+            return matchesSearch && matchesCategory && matchesState;
+        });
+
+        renderSchemes(filteredSchemes);
+    }
+
+    // Event listeners
+    document.getElementById('search').addEventListener('input', filterSchemes);
+    document.getElementById('category').addEventListener('change', filterSchemes);
+    document.getElementById('state').addEventListener('change', filterSchemes);
+
+    // Initial render
+    renderSchemes();
+</script>
+
+<%- include('partials/footer') %> 

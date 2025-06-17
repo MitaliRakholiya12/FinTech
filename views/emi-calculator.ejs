@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#1a1a1a',
+                            card: '#2d2d2d',
+                            text: '#ffffff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 dark:bg-dark-bg transition-colors duration-200">
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">EMI Calculator</h1>
+            <button id="themeToggle" class="p-2 rounded-lg bg-gray-200 dark:bg-dark-card hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">
+                <svg id="sunIcon" class="w-6 h-6 hidden dark:block text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <svg id="moonIcon" class="w-6 h-6 block dark:hidden text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Calculator Form -->
+            <div class="bg-white dark:bg-dark-card p-6 rounded-lg shadow-lg transition-colors duration-200">
+                <form id="emiForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Loan Amount (₹)</label>
+                        <input type="number" id="loanAmount" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200" value="100000">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Interest Rate (% per annum)</label>
+                        <input type="number" id="interestRate" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200" value="10">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Loan Tenure (years)</label>
+                        <input type="number" id="loanTenure" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200" value="5">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
+                        Calculate EMI
+                    </button>
+                </form>
+
+                <div class="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-md transition-colors duration-200">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Loan Summary</h3>
+                    <div class="space-y-2 text-gray-700 dark:text-gray-200">
+                        <p>Monthly EMI: ₹<span id="monthlyEmi">0</span></p>
+                        <p>Total Interest: ₹<span id="totalInterest">0</span></p>
+                        <p>Total Payment: ₹<span id="totalPayment">0</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Container -->
+            <div class="bg-white dark:bg-dark-card p-6 rounded-lg shadow-lg transition-colors duration-200">
+                <canvas id="emiChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference, default to light if none
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+
+        // Theme toggle handler
+        themeToggle.addEventListener('click', () => {
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateChartTheme();
+        });
+
+        let emiChart;
+
+        function calculateEMI(principal, rate, time) {
+            const monthlyRate = (rate/12)/100;
+            const numberOfPayments = time * 12;
+            const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments) / 
+                       (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+            return emi;
+        }
+
+        function updateChart(principal, totalInterest) {
+            const ctx = document.getElementById('emiChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (emiChart) {
+                emiChart.destroy();
+            }
+
+            emiChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Principal Amount', 'Total Interest'],
+                    datasets: [{
+                        data: [principal, totalInterest],
+                        backgroundColor: ['#3B82F6', '#EF4444'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: isDark ? '#ffffff' : '#000000'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Loan Breakdown',
+                            color: isDark ? '#ffffff' : '#000000'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChartTheme() {
+            const principal = parseFloat(document.getElementById('loanAmount').value);
+            const totalInterest = parseFloat(document.getElementById('totalInterest').textContent);
+            updateChart(principal, totalInterest);
+        }
+
+        document.getElementById('emiForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const principal = parseFloat(document.getElementById('loanAmount').value);
+            const rate = parseFloat(document.getElementById('interestRate').value);
+            const time = parseFloat(document.getElementById('loanTenure').value);
+            
+            const emi = calculateEMI(principal, rate, time);
+            const totalPayment = emi * time * 12;
+            const totalInterest = totalPayment - principal;
+            
+            document.getElementById('monthlyEmi').textContent = emi.toFixed(2);
+            document.getElementById('totalInterest').textContent = totalInterest.toFixed(2);
+            document.getElementById('totalPayment').textContent = totalPayment.toFixed(2);
+            
+            updateChart(principal, totalInterest);
+        });
+
+        // Initial calculation
+        document.getElementById('emiForm').dispatchEvent(new Event('submit'));
+    </script>
+</body>
+</html> 
